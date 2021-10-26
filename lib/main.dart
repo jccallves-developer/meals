@@ -29,7 +29,6 @@ class MyApp extends StatelessWidget {
               ),
             ),
       ),
-      home: const CategoriesScreen(),
       routes: {
         // ignore: prefer_const_constructors
         AppRoutes.HOME: (ctx) => CategoriesScreen(),
