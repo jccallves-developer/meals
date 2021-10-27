@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import '../models/category.dart';
 import '../data/dummy_data.dart';
 import '../components/meal_item.dart';
+import '../models/meal.dart';
 
 // ignore: use_key_in_widget_constructors
 class CategoriesMealsScreen extends StatelessWidget {
+  final List<Meal> meals;
+
+  const CategoriesMealsScreen(this.meals);
+
   @override
   Widget build(BuildContext context) {
     final category = ModalRoute.of(context)!.settings.arguments as Category;

@@ -4,13 +4,22 @@ import 'screens/tabs_screen.dart';
 import 'utils/app_routes.dart';
 import 'screens/meal_detail_screen.dart';
 import 'screens/settings_screen.dart';
+import 'models/meal.dart';
+import 'data/dummy_data.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  List<Meal> _availabelMeals = DUMMY_MEALS;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +43,8 @@ class MyApp extends StatelessWidget {
       routes: {
         // ignore: prefer_const_constructors
         AppRoutes.HOME: (ctx) => TabsScreen(),
-        AppRoutes.CATEGORIES_MEALS: (ctx) => CategoriesMealsScreen(),
+        AppRoutes.CATEGORIES_MEALS: (ctx) =>
+            CategoriesMealsScreen(_availabelMeals),
         AppRoutes.MEAL_DETAIL: (ctx) => MealDetailScreen(),
         AppRoutes.SETINGS: (ctx) => SettingsScreen(),
       },
