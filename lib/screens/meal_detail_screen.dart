@@ -2,7 +2,17 @@ import 'package:flutter/material.dart';
 
 import '../models/meal.dart';
 
-class MealDetailScreen extends StatelessWidget {
+class MealDetailScreen extends StatefulWidget {
+  final Function(Meal) onToggleFavorite;
+  final bool Function(Meal) isFavorite;
+
+  const MealDetailScreen(this.onToggleFavorite, this.isFavorite);
+
+  @override
+  State<MealDetailScreen> createState() => _MealDetailScreenState();
+}
+
+class _MealDetailScreenState extends State<MealDetailScreen> {
   Widget _createSectionTitle(BuildContext context, String title) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -60,7 +70,7 @@ class MealDetailScreen extends StatelessWidget {
                       ),
                       child: Text(meal.ingredients[index]),
                     ),
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: Theme.of(context).colorScheme.primary,
                   );
                 },
               ),
@@ -75,8 +85,6 @@ class MealDetailScreen extends StatelessWidget {
                       ListTile(
                         leading: CircleAvatar(
                           child: Text('${index + 1}'),
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primary,
                         ),
                         title: Text(meal.steps[index]),
                       ),
@@ -90,9 +98,10 @@ class MealDetailScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.star),
+        child: Icon(widget.isFavorite(meal) ? Icons.star : Icons.star_border),
+        foregroundColor: Theme.of(context).colorScheme.primary,
         onPressed: () {
-          Navigator.of(context).pop(meal);
+          widget.onToggleFavorite(meal);
         },
       ),
     );
