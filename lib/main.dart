@@ -6,6 +6,7 @@ import 'screens/meal_detail_screen.dart';
 import 'screens/settings_screen.dart';
 import 'models/meal.dart';
 import 'data/dummy_data.dart';
+import 'models/settings.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +20,22 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  List<Meal> _availabelMeals = DUMMY_MEALS;
+  List<Meal> _availableMeals = DUMMY_MEALS;
+
+  void _filterMeals(Settings settings) {
+    setState(() {
+      _availableMeals = DUMMY_MEALS.where((meal) {
+        final filterGluten = settings.isGlutenFree && !meal.isGlutenFree;
+        final filterLactose = settings.isLactoseFree && !meal.isLactoseFree;
+        final filterVegan = settings.isVegan && !meal.isVegan;
+        final filterVegetarian = settings.isVegetarian && !meal.isVegetarian;
+        return !filterGluten &&
+            !filterLactose &&
+            !filterVegan &&
+            !filterVegetarian;
+      }).toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +60,9 @@ class _MyAppState extends State<MyApp> {
         // ignore: prefer_const_constructors
         AppRoutes.HOME: (ctx) => TabsScreen(),
         AppRoutes.CATEGORIES_MEALS: (ctx) =>
-            CategoriesMealsScreen(_availabelMeals),
+            CategoriesMealsScreen(_availableMeals),
         AppRoutes.MEAL_DETAIL: (ctx) => MealDetailScreen(),
-        AppRoutes.SETINGS: (ctx) => SettingsScreen(),
+        AppRoutes.SETINGS: (ctx) => SettingsScreen(_filterMeals),
       },
     );
   }
